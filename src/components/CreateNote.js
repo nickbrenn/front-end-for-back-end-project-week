@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { Button, Form, FormGroup, Input } from "reactstrap";
 
 import "./CreateNote.css";
@@ -36,6 +35,9 @@ class CreateNote extends Component {
     if (this.state.title === "") {
       newNote.title = "Untitled";
     }
+    if (this.state.content === "") {
+      newNote.content = "Placeholder";
+    }
     this.props.addNote(newNote);
     this.setState({
       title: "",
@@ -67,11 +69,9 @@ class CreateNote extends Component {
             className="content-input"
           />
         </FormGroup>
-        <Link to="/">
-          <Button color="info" onClick={this.handleCreateNote}>
-            <b>Create Note</b>
-          </Button>
-        </Link>
+        <Button color="info" onClick={this.handleCreateNote}>
+          <b>Create Note</b>
+        </Button>
       </Form>
     );
   }
