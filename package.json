@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "build-create-react-app-netlify": "^1.1.2",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-router-dom": "^4.2.2",
@@ -11,7 +12,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build":
+      "react-scripts build && echo '/*    /index.html   200' > public/_redirects",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
