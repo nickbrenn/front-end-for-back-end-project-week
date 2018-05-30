@@ -91,10 +91,20 @@ class App extends Component {
       });
   };
 
-  editNote = editedNote => {
+  editNote = (editedNote, id) => {
+    axios
+      .put(`https://radiant-stream-89164.herokuapp.com/notes/${id}`, editedNote)
+      .then(response => {
+        console.log("we UPDATED a note", response.data);
+      })
+      .catch(error => {
+        console.error("Server Error", error);
+      });
+
     const newNotes = this.state.notes.map((note, index) => {
-      if (editedNote.id === note.id) {
-        note = editedNote;
+      if (id === note._id) {
+        note.title = editedNote.title;
+        note.content = editedNote.content;
       }
       return note;
     });

@@ -66,11 +66,11 @@ class NoteView extends Component {
   handleEditNote = () => {
     if (this.state.title !== "" && this.state.content !== "") {
       const editedNote = {
-        id: this.state.id,
         title: this.state.title,
         content: this.state.content
       };
-      this.props.editNote(editedNote);
+      const id = this.state.id;
+      this.props.editNote(editedNote, id);
       this.setState({
         editing: !this.state.editing
       });
