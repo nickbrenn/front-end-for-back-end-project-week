@@ -9,10 +9,15 @@ class NoteList extends Component {
     super(props);
     this.state = {
       searchInput: "",
-      sortType: "alphabetical"
-      // notes: this.props.notes
+      sortType: "alphabetical",
+      currentPage: 1,
+      notesPerPage: 9
     };
   }
+
+  handlePageTurn = e => {
+    this.setState({ currentPage: Number(e.target.id) });
+  };
 
   handleSearchInput = e => {
     this.setState({ searchInput: e.target.value });
@@ -48,6 +53,22 @@ class NoteList extends Component {
         return a.id - b.id;
       });
     }
+
+    const { currentPage, notesPerPage } = this.state;
+
+    const indexOfLastNote = currentPage * notesPerPage;
+    const indexOfFirstNote = indexOfLastNote - notesPerPage;
+    const currentNotes = sortedNotes.slice(indexOfFirstNote, indexOfLastNote);
+
+    const pageNumbers = [];
+    for (
+      let i = 1;
+      i <= Math.ceil(this.props.notes.length / notesPerPage);
+      i++
+    ) {
+      pageNumbers.push(i);
+    }
+
     return (
       <div>
         <Input
@@ -62,7 +83,7 @@ class NoteList extends Component {
           color="info"
           onClick={() => this.changeSortType("default")}
         >
-          Sorty by Id (Default)
+          Sort by Last Modified (Default)
         </Button>
         <Button
           className="sort-button"
@@ -78,9 +99,9 @@ class NoteList extends Component {
         >
           Sorty by Size
         </Button>
-        <h3 id="your-notes">Your Notes: </h3>
+        <h3 id="your-notes">Your Notes (page {currentPage}): </h3>
         <Container className="note-list">
-          {sortedNotes.map((note, index) => {
+          {currentNotes.map((note, index) => {
             if (this.state.searchInput === "") {
               return <NoteCard key={note._id} note={note} />;
             } else if (
@@ -97,6 +118,15 @@ class NoteList extends Component {
             }
           })}
         </Container>
+        <div id="page-numbers">
+          {pageNumbers.map(number => {
+            return (
+              <li key={number} id={number} onClick={this.handlePageTurn}>
+                {number}
+              </li>
+            );
+          })}
+        </div>
       </div>
     );
   }
