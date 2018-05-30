@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import { Row, Col, Container, Input, Button } from "reactstrap";
+import axios from "axios";
 
 import NoteList from "./components/NoteList";
 import NoteView from "./components/NoteView";
@@ -37,11 +38,23 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: initialNotes,
+      notes: [],
       password: "password",
       inputtedPassword: "",
       access: true
     };
+  }
+
+  componentDidMount() {
+    axios
+      .get("https://radiant-stream-89164.herokuapp.com/notes")
+      .then(response => {
+        console.log("we got the notes", response.data);
+        this.setState(() => ({ notes: response.data }));
+      })
+      .catch(error => {
+        console.error("Server Error", error);
+      });
   }
 
   handlePasswordInput = e => {
@@ -62,25 +75,20 @@ class App extends Component {
   };
 
   addNote = newNote => {
-    let id = 1;
-    if (this.state.notes.length > 0) {
-      // old way of assigning the id which made duplicate ids if a new note was added when the sort order was not by id
-      // id = this.state.notes[this.state.notes.length - 1].id + 1;
-      let notes = this.state.notes;
-      // new forloop way that works with sorting options
-      for (let i = 0; i < notes.length; i++) {
-        if (id < notes[i].id) {
-          id = notes[i].id;
-        }
-      }
-      id = id + 1;
-    }
+    console.log("addnote is run", newNote);
     const addedNote = {
-      id: id,
       title: newNote.title,
       content: newNote.content
     };
-    this.setState({ notes: [...this.state.notes, addedNote] });
+    axios
+      .post("https://radiant-stream-89164.herokuapp.com/notes", addedNote)
+      .then(response => {
+        console.log("we got a new note", response.data);
+        this.setState(() => ({ notes: [...this.state.notes, response.data] }));
+      })
+      .catch(error => {
+        console.error("Server Error", error);
+      });
   };
 
   editNote = editedNote => {
@@ -101,6 +109,7 @@ class App extends Component {
   };
 
   render() {
+    console.log("app state notes", this.state.notes);
     if (this.state.access === true) {
       return (
         <div className="App">

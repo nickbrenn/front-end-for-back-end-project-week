@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { Button, Form, FormGroup, Input, Modal, ModalBody } from "reactstrap";
 
 import "./NoteView.css";
@@ -8,7 +9,7 @@ class NoteView extends Component {
     super(props);
     this.state = {
       note: null,
-      id: parseInt(this.props.match.params.id, 10),
+      id: this.props.match.params.id,
       title: "",
       content: "",
       editing: false,
@@ -27,16 +28,23 @@ class NoteView extends Component {
   };
 
   displayNote = () => {
-    const displayedNote = this.props.notes.filter(
-      (note, index) => this.state.id === note.id
-    );
-    if (displayedNote[0]) {
-      this.setState({
-        note: displayedNote[0],
-        title: displayedNote[0].title,
-        content: displayedNote[0].content
+    // const displayedNote = this.props.notes.filter((note, index) => {
+    //   this.state.id == note._id;
+    // });
+    // console.log("the notes for noteview", this.props.notes);
+    const id = this.props.match.params.id;
+    axios
+      .get(`https://radiant-stream-89164.herokuapp.com/notes/${id}`)
+      .then(response => {
+        this.setState(() => ({
+          note: response.data,
+          title: response.data.title,
+          content: response.data.content
+        }));
+      })
+      .catch(error => {
+        console.error("Server Error", error);
       });
-    }
   };
 
   handleInput = e => {

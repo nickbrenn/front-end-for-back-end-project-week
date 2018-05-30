@@ -9,8 +9,8 @@ class NoteList extends Component {
     super(props);
     this.state = {
       searchInput: "",
-      sortType: null,
-      notes: this.props.notes
+      sortType: null
+      // notes: this.props.notes
     };
   }
 
@@ -23,7 +23,7 @@ class NoteList extends Component {
   };
 
   render() {
-    console.log(this.state.notes);
+    console.log("console log of notelist.js note state", this.props.notes);
     let sortedNotes = this.props.notes;
     if (this.state.sortType === "alphabetical") {
       sortedNotes = sortedNotes.sort(function(a, b) {
@@ -82,7 +82,7 @@ class NoteList extends Component {
         <Container className="note-list">
           {sortedNotes.map((note, index) => {
             if (this.state.searchInput === "") {
-              return <NoteCard key={note.title + note.id} note={note} />;
+              return <NoteCard key={note._id} note={note} />;
             } else if (
               note.title
                 .toLowerCase()
@@ -91,7 +91,7 @@ class NoteList extends Component {
                 .toLowerCase()
                 .includes(this.state.searchInput.toLowerCase())
             ) {
-              return <NoteCard key={note.title + note.id} note={note} />;
+              return <NoteCard key={note._id} note={note} />;
             } else {
               return null;
             }
