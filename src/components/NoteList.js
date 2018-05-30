@@ -9,7 +9,7 @@ class NoteList extends Component {
     super(props);
     this.state = {
       searchInput: "",
-      sortType: null
+      sortType: "alphabetical"
       // notes: this.props.notes
     };
   }

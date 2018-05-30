@@ -46,6 +46,10 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.fetchNotes();
+  }
+
+  fetchNotes() {
     axios
       .get("https://radiant-stream-89164.herokuapp.com/notes")
       .then(response => {
@@ -83,11 +87,10 @@ class App extends Component {
     axios
       .post("https://radiant-stream-89164.herokuapp.com/notes", addedNote)
       .then(response => {
-        console.log("we got a new note", response.data);
-        this.setState(() => ({ notes: [...this.state.notes, response.data] }));
+        this.fetchNotes();
       })
       .catch(error => {
-        console.error("Server Error", error);
+        console.error("Server Error: Error adding note", error);
       });
   };
 
@@ -96,26 +99,23 @@ class App extends Component {
       .put(`https://radiant-stream-89164.herokuapp.com/notes/${id}`, editedNote)
       .then(response => {
         console.log("we UPDATED a note", response.data);
+        this.fetchNotes();
       })
       .catch(error => {
-        console.error("Server Error", error);
+        console.error("Server Error: Error putting note", error);
       });
-
-    const newNotes = this.state.notes.map((note, index) => {
-      if (id === note._id) {
-        note.title = editedNote.title;
-        note.content = editedNote.content;
-      }
-      return note;
-    });
-    this.setState({ notes: newNotes });
   };
 
-  deleteNote = deleteId => {
-    const newNotes = this.state.notes.filter(note => {
-      return note.id !== deleteId;
-    });
-    this.setState({ notes: newNotes });
+  deleteNote = id => {
+    axios
+      .delete(`https://radiant-stream-89164.herokuapp.com/notes/${id}`)
+      .then(response => {
+        console.log("we DELETED a note", response.data);
+        this.fetchNotes();
+      })
+      .catch(error => {
+        console.error("Server Error: Error deleting note", error);
+      });
   };
 
   render() {
