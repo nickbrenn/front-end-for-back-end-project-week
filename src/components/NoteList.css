@@ -5,14 +5,23 @@
   /* font-size: 1.6rem; */
 }
 
+#note-list-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
 #your-notes {
-  padding: 2% 15px 0 15px;
+  padding: 0 15px 0 15px;
+  margin: 0;
   /* font-size: 2.25rem; */
 }
 
 .searchbar.form-control {
   display: inline-block;
-  margin-top: 2%;
+  margin-top: 0;
   margin-right: 2px;
   width: 40%;
   padding-top: 0;
@@ -24,9 +33,11 @@ button.sort-button.btn.btn-info {
 } */
 
 #page-numbers {
+  /* width: 100%; */
   list-style: none;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 #page-numbers > li {
@@ -34,4 +45,5 @@ button.sort-button.btn.btn-info {
   color: blue;
   user-select: none;
   cursor: pointer;
+  font-size: 20px;
 }

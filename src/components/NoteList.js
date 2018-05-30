@@ -71,35 +71,46 @@ class NoteList extends Component {
 
     return (
       <div>
-        <Input
-          className="searchbar"
-          type="text"
-          placeholder="search by title or content"
-          onChange={this.handleSearchInput}
-          value={this.state.searchInput}
-        />
-        <Button
-          className="sort-button"
-          color="info"
-          onClick={() => this.changeSortType("default")}
-        >
-          Sort by Last Modified (Default)
-        </Button>
-        <Button
-          className="sort-button"
-          color="info"
-          onClick={() => this.changeSortType("alphabetical")}
-        >
-          Sort by Alphabet
-        </Button>
-        <Button
-          className="sort-button"
-          color="info"
-          onClick={() => this.changeSortType("contentLength")}
-        >
-          Sorty by Size
-        </Button>
-        <h3 id="your-notes">Your Notes (page {currentPage}): </h3>
+        <div id="note-list-header">
+          <Input
+            className="searchbar"
+            type="text"
+            placeholder="search by title or content"
+            onChange={this.handleSearchInput}
+            value={this.state.searchInput}
+          />
+          <Button
+            className="sort-button"
+            color="info"
+            onClick={() => this.changeSortType("default")}
+          >
+            Sort by Last Modified
+          </Button>
+          <Button
+            className="sort-button"
+            color="info"
+            onClick={() => this.changeSortType("alphabetical")}
+          >
+            Sort by Alphabet
+          </Button>
+          <Button
+            className="sort-button"
+            color="info"
+            onClick={() => this.changeSortType("contentLength")}
+          >
+            Sort by Size
+          </Button>
+        </div>
+        <div id="page-numbers">
+          <h3 id="your-notes">Your Notes (page {currentPage}): </h3>
+          {pageNumbers.map(number => {
+            return (
+              <li key={number} id={number} onClick={this.handlePageTurn}>
+                {number}
+              </li>
+            );
+          })}
+        </div>
         <Container className="note-list">
           {currentNotes.map((note, index) => {
             if (this.state.searchInput === "") {
@@ -118,15 +129,6 @@ class NoteList extends Component {
             }
           })}
         </Container>
-        <div id="page-numbers">
-          {pageNumbers.map(number => {
-            return (
-              <li key={number} id={number} onClick={this.handlePageTurn}>
-                {number}
-              </li>
-            );
-          })}
-        </div>
       </div>
     );
   }
