@@ -9,31 +9,6 @@ import CreateNote from "./components/CreateNote";
 import Menu from "./components/Menu";
 import "./App.css";
 
-const placeholderText =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-
-const initialNotes = [
-  {
-    id: 1,
-    title: "First Note NOTENOTENOTENOTENOTENOTENOTENOTE",
-    content: placeholderText
-  },
-  { id: 2, title: "AAA Second Note", content: placeholderText },
-  {
-    id: 3,
-    title: "Third Note (Biggest size)",
-    content: placeholderText + placeholderText + placeholderText
-  },
-  {
-    id: 4,
-    title: "Fourth Note (2nd biggest)",
-    content: placeholderText + placeholderText
-  },
-  { id: 5, title: "ZZZ Fifth Note", content: placeholderText },
-  { id: 6, title: "Sixth Note", content: "shortest content" },
-  { id: 7, title: "Seventh Note", content: "2nd shortest content" }
-];
-
 class App extends Component {
   constructor(props) {
     super(props);

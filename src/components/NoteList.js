@@ -9,7 +9,7 @@ class NoteList extends Component {
     super(props);
     this.state = {
       searchInput: "",
-      sortType: "alphabetical",
+      sortType: "updated",
       currentPage: 1,
       notesPerPage: 9
     };
@@ -43,14 +43,31 @@ class NoteList extends Component {
         return 0;
       });
     }
-    if (this.state.sortType === "contentLength") {
+    // if (this.state.sortType === "contentLength") {
+    //   sortedNotes = sortedNotes.sort(function(a, b) {
+    //     return b.content.length - a.content.length;
+    //   });
+    // }
+    if (this.state.sortType === "updated") {
       sortedNotes = sortedNotes.sort(function(a, b) {
-        return b.content.length - a.content.length;
+        if (a.updatedAt > b.updatedAt) {
+          return -1;
+        }
+        if (a.updatedAt < b.updatedAt) {
+          return 1;
+        }
+        return 0;
       });
     }
-    if (this.state.sortType === "default") {
+    if (this.state.sortType === "created") {
       sortedNotes = sortedNotes.sort(function(a, b) {
-        return a.id - b.id;
+        if (a.createdAt > b.createdAt) {
+          return -1;
+        }
+        if (a.createdAt < b.createdAt) {
+          return 1;
+        }
+        return 0;
       });
     }
 
@@ -82,23 +99,23 @@ class NoteList extends Component {
           <Button
             className="sort-button"
             color="info"
-            onClick={() => this.changeSortType("default")}
+            onClick={() => this.changeSortType("updated")}
           >
-            Sort by Last Modified
+            Sort Modified
+          </Button>
+          <Button
+            className="sort-button"
+            color="info"
+            onClick={() => this.changeSortType("created")}
+          >
+            Sort Created
           </Button>
           <Button
             className="sort-button"
             color="info"
             onClick={() => this.changeSortType("alphabetical")}
           >
-            Sort by Alphabet
-          </Button>
-          <Button
-            className="sort-button"
-            color="info"
-            onClick={() => this.changeSortType("contentLength")}
-          >
-            Sort by Size
+            Sort Alphabetically
           </Button>
         </div>
         <div id="page-numbers">
