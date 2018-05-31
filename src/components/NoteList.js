@@ -9,9 +9,9 @@ class NoteList extends Component {
     super(props);
     this.state = {
       searchInput: "",
-      sortType: "updated",
       currentPage: 1,
-      notesPerPage: 9
+      notesPerPage: 9,
+      sortBy: null
     };
   }
 

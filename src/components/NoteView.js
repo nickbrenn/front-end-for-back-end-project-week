@@ -8,7 +8,25 @@ class NoteView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      note: null,
+      note: axios
+        .get(
+          `https://radiant-stream-89164.herokuapp.com/notes/${
+            this.props.match.params.id
+          }`
+        )
+        .then(response => {
+          this.setState(() => ({
+            note: response.data,
+            title: response.data.title,
+            content: response.data.content
+          }));
+        })
+        .catch(error => {
+          console.error("Server Error", error);
+          this.setState(() => ({
+            note: undefined
+          }));
+        }),
       id: this.props.match.params.id,
       title: "",
       content: "",
@@ -16,36 +34,6 @@ class NoteView extends Component {
       deleting: false
     };
   }
-
-  componentDidMount = () => {
-    if (
-      this.props.notes !== null &&
-      this.props.notes !== undefined &&
-      this.state.editing === false
-    ) {
-      this.displayNote();
-    }
-  };
-
-  displayNote = () => {
-    // const displayedNote = this.props.notes.filter((note, index) => {
-    //   this.state.id == note._id;
-    // });
-    // console.log("the notes for noteview", this.props.notes);
-    const id = this.props.match.params.id;
-    axios
-      .get(`https://radiant-stream-89164.herokuapp.com/notes/${id}`)
-      .then(response => {
-        this.setState(() => ({
-          note: response.data,
-          title: response.data.title,
-          content: response.data.content
-        }));
-      })
-      .catch(error => {
-        console.error("Server Error", error);
-      });
-  };
 
   handleInput = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -81,12 +69,14 @@ class NoteView extends Component {
     this.props.deleteNote(this.state.id);
     this.setState({
       editing: false,
-      note: null
+      deleted: true
     });
   };
 
   render() {
-    if (this.state.editing === false && this.state.note !== null) {
+    if (this.state.deleted === true) {
+      return <div className="mt-5">Note deleted.</div>;
+    } else if (this.state.editing === false && this.state.note !== undefined) {
       return (
         <div className="note-view mt-1 mb-5">
           <div className="modify-links">
@@ -137,7 +127,9 @@ class NoteView extends Component {
           </Button>
         </Form>
       );
-    } else return <div className="mt-5">There is no note with that id!</div>;
+    } else if (this.state.editing === false && this.state.note === undefined) {
+      return <div className="mt-5">There is no note with that id!</div>;
+    } else return <div />;
   }
 }
 

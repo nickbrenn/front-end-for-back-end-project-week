@@ -29,7 +29,16 @@ class App extends Component {
       .get("https://radiant-stream-89164.herokuapp.com/notes")
       .then(response => {
         console.log("we got the notes", response.data);
-        this.setState(() => ({ notes: response.data }));
+        let sortedNotes = response.data.sort(function(a, b) {
+          if (a.updatedAt > b.updatedAt) {
+            return -1;
+          }
+          if (a.updatedAt < b.updatedAt) {
+            return 1;
+          }
+          return 0;
+        });
+        this.setState(() => ({ notes: sortedNotes }));
       })
       .catch(error => {
         console.error("Server Error", error);
