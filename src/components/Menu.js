@@ -39,7 +39,14 @@ class Menu extends Component {
             <Button color="danger" onClick={this.props.logOut}>
               <b>Log Out</b>
             </Button>
-            <Button color="info" onClick={this.loggingOutToggle}>
+            <Button
+              color="info"
+              onClick={() => {
+                this.loggingOutToggle();
+                this.props.logOut();
+                localStorage.removeItem("token");
+              }}
+            >
               <b>Cancel</b>
             </Button>
           </div>

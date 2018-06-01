@@ -16,8 +16,6 @@ class App extends Component {
     super(props);
     this.state = {
       notes: [],
-      password: "password",
-      inputtedPassword: "",
       access: false
     };
   }
@@ -27,8 +25,15 @@ class App extends Component {
   }
 
   fetchNotes() {
+    const token = localStorage.getItem("token");
+    const requestOptions = {
+      headers: {
+        Authorization: token
+      }
+    };
+    console.log("requestOptions", requestOptions);
     axios
-      .get("https://radiant-stream-89164.herokuapp.com/notes")
+      .get("https://radiant-stream-89164.herokuapp.com/notes", requestOptions)
       .then(response => {
         console.log("we got the notes", response.data);
         let sortedNotes = response.data.sort(function(a, b) {
@@ -44,6 +49,7 @@ class App extends Component {
       })
       .catch(error => {
         console.error("Server Error", error);
+        this.props.history.push("/");
       });
   }
 
@@ -52,16 +58,11 @@ class App extends Component {
   };
 
   submitPassword = () => {
-    if (this.state.inputtedPassword === this.state.password) {
-      this.setState({ access: true });
-    } else {
-      alert("This password is incorrect.");
-      this.setState({ inputtedPassword: "" });
-    }
+    this.setState({ access: true });
   };
 
   logOut = () => {
-    this.setState({ inputtedPassword: "", access: false });
+    this.setState({ access: false, notes: [] });
   };
 
   addNote = newNote => {
@@ -166,7 +167,7 @@ class App extends Component {
             exact
             path="/"
             render={props => {
-              return <Login />;
+              return <Login submitPassword={this.submitPassword} />;
             }}
           />
           <Route

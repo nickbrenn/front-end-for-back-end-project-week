@@ -19,11 +19,11 @@ class Login extends Component {
       password: this.state.password
     };
     axios
-      .post("https://radiant-stream-89164.herokuapp.com/users", userData)
+      .post("https://radiant-stream-89164.herokuapp.com/login", userData)
       .then(response => {
         console.log(response.data);
         localStorage.setItem("token", response.data.token);
-        // this.props.history.push("/users");
+        this.props.submitPassword();
       })
       .catch(error => {
         console.log(error);
