@@ -20,7 +20,7 @@ class NoteList extends Component {
   };
 
   handleSearchInput = e => {
-    this.setState({ searchInput: e.target.value });
+    this.setState({ searchInput: e.target.value, currentPage: 1 });
   };
 
   changeSortType = sortBy => {
@@ -30,6 +30,17 @@ class NoteList extends Component {
   render() {
     console.log("console log of notelist.js note props", this.props.notes);
     let sortedNotes = this.props.notes;
+    if (this.state.searchInput !== "") {
+      sortedNotes = sortedNotes.filter(
+        note =>
+          note.title
+            .toLowerCase()
+            .indexOf(this.state.searchInput.toLowerCase()) !== -1 ||
+          note.content
+            .toLowerCase()
+            .indexOf(this.state.searchInput.toLowerCase()) !== -1
+      );
+    }
     if (this.state.sortType === "alphabetical") {
       sortedNotes = sortedNotes.sort(function(a, b) {
         let titleA = a.title.toLowerCase();
@@ -78,11 +89,7 @@ class NoteList extends Component {
     const currentNotes = sortedNotes.slice(indexOfFirstNote, indexOfLastNote);
 
     const pageNumbers = [];
-    for (
-      let i = 1;
-      i <= Math.ceil(this.props.notes.length / notesPerPage);
-      i++
-    ) {
+    for (let i = 1; i <= Math.ceil(sortedNotes.length / notesPerPage); i++) {
       pageNumbers.push(i);
     }
 
