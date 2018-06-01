@@ -8,6 +8,8 @@ import NoteView from "./components/NoteView";
 import CreateNote from "./components/CreateNote";
 import Menu from "./components/Menu";
 import "./App.css";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 class App extends Component {
   constructor(props) {
@@ -159,34 +161,35 @@ class App extends Component {
       );
     } else {
       return (
-        <div className="App">
-          <Container>
-            <Row>
-              <Col>
-                <h4 className="mt-5">Login: </h4>
-                <Input
-                  className="password-input mt-5"
-                  type="text"
-                  name="inputtedPassword"
-                  placeholder="Type the password for access"
-                  onChange={this.handlePasswordInput}
-                  value={this.state.inputtedPassword}
-                />
-                <Button color="info" onClick={this.submitPassword}>
-                  Login
-                </Button>
-                <Button
-                  color="info"
-                  onClick={() =>
-                    alert(`The password is "${this.state.password}"`)
-                  }
-                >
-                  Hint
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        </div>
+        <Register />
+        // <div className="App">
+        //   <Container>
+        //     <Row>
+        //       <Col>
+        //         <h4 className="mt-5">Login: </h4>
+        //         <Input
+        //           className="password-input mt-5"
+        //           type="text"
+        //           name="inputtedPassword"
+        //           placeholder="Type the password for access"
+        //           onChange={this.handlePasswordInput}
+        //           value={this.state.inputtedPassword}
+        //         />
+        //         <Button color="info" onClick={this.submitPassword}>
+        //           Login
+        //         </Button>
+        //         <Button
+        //           color="info"
+        //           onClick={() =>
+        //             alert(`The password is "${this.state.password}"`)
+        //           }
+        //         >
+        //           Hint
+        //         </Button>
+        //       </Col>
+        //     </Row>
+        //   </Container>
+        // </div>
       );
     }
   }
