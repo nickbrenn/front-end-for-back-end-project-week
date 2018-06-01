@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Button } from "reactstrap";
+import { Link } from "react-router-dom";
 
 class Register extends Component {
   constructor(props) {
@@ -53,6 +55,9 @@ class Register extends Component {
           />
           <button type="submit">Register this user</button>
         </form>
+        <Link to={"/"}>
+          <Button color="info">Login</Button>
+        </Link>
       </div>
     );
   }

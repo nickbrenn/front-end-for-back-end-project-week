@@ -18,7 +18,7 @@ class App extends Component {
       notes: [],
       password: "password",
       inputtedPassword: "",
-      access: true
+      access: false
     };
   }
 
@@ -161,7 +161,23 @@ class App extends Component {
       );
     } else {
       return (
-        <Register />
+        <div>
+          <Route
+            exact
+            path="/"
+            render={props => {
+              return <Login />;
+            }}
+          />
+          <Route
+            exact
+            path="/register"
+            render={props => {
+              return <Register />;
+            }}
+          />
+        </div>
+
         // <div className="App">
         //   <Container>
         //     <Row>

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Button } from "reactstrap";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -21,7 +23,7 @@ class Login extends Component {
       .then(response => {
         console.log(response.data);
         localStorage.setItem("token", response.data.token);
-        this.props.history.push("/users");
+        // this.props.history.push("/users");
       })
       .catch(error => {
         console.log(error);
@@ -55,6 +57,9 @@ class Login extends Component {
           />
           <button type="submit">Login this user</button>
         </form>
+        <Link to={"/register"}>
+          <Button color="info">Register</Button>
+        </Link>
       </div>
     );
   }
