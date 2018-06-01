@@ -23,9 +23,9 @@ class Login extends Component {
     axios
       .post("https://radiant-stream-89164.herokuapp.com/login", userData)
       .then(response => {
-        console.log(response.data);
+        localStorage.setItem("username", userData.username);
         localStorage.setItem("token", response.data.token);
-        this.props.submitPassword();
+        this.props.submitPassword(userData.username);
       })
       .catch(error => {
         console.log(error);

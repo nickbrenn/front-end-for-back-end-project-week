@@ -36,15 +36,20 @@ class Menu extends Component {
         <Modal isOpen={this.state.loggingOut} toggle={this.loggingOutToggle}>
           <ModalBody>Are you sure you want to log out?</ModalBody>
           <div className="modal-buttons">
-            <Button color="danger" onClick={this.props.logOut}>
+            <Button
+              color="danger"
+              onClick={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
+                this.props.logOut();
+              }}
+            >
               <b>Log Out</b>
             </Button>
             <Button
               color="info"
               onClick={() => {
                 this.loggingOutToggle();
-                this.props.logOut();
-                localStorage.removeItem("token");
               }}
             >
               <b>Cancel</b>

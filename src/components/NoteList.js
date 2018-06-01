@@ -28,7 +28,7 @@ class NoteList extends Component {
   };
 
   render() {
-    console.log("console log of notelist.js note state", this.props.notes);
+    console.log("console log of notelist.js note props", this.props.notes);
     let sortedNotes = this.props.notes;
     if (this.state.sortType === "alphabetical") {
       sortedNotes = sortedNotes.sort(function(a, b) {
@@ -48,7 +48,7 @@ class NoteList extends Component {
     //     return b.content.length - a.content.length;
     //   });
     // }
-    if (this.state.sortType === "updated") {
+    if (this.state.sortType === "modified") {
       sortedNotes = sortedNotes.sort(function(a, b) {
         if (a.updatedAt > b.updatedAt) {
           return -1;
@@ -99,7 +99,7 @@ class NoteList extends Component {
           <Button
             className="sort-button"
             color="info"
-            onClick={() => this.changeSortType("updated")}
+            onClick={() => this.changeSortType("modified")}
           >
             Sort Modified
           </Button>

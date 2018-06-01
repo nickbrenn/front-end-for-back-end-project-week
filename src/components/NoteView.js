@@ -1,38 +1,34 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { Button, Form, FormGroup, Input, Modal, ModalBody } from "reactstrap";
 
 import "./NoteView.css";
 
+let globalNote = [];
+
 class NoteView extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      note: axios
-        .get(
-          `https://radiant-stream-89164.herokuapp.com/notes/${
-            this.props.match.params.id
-          }`
-        )
-        .then(response => {
-          this.setState(() => ({
-            note: response.data,
-            title: response.data.title,
-            content: response.data.content
-          }));
-        })
-        .catch(error => {
-          console.error("Server Error", error);
-          this.setState(() => ({
-            note: undefined
-          }));
-        }),
-      id: this.props.match.params.id,
-      title: "",
-      content: "",
-      editing: false,
-      deleting: false
-    };
+    const note = this.props.notes.filter(
+      note => note._id === this.props.match.params.id
+    );
+    if (note[0]) {
+      globalNote = note;
+      this.state = {
+        note: this.props.notes.filter(
+          note => note._id === this.props.match.params.id
+        ),
+        id: this.props.match.params.id,
+        title: note[0].title,
+        content: note[0].content,
+        editing: false,
+        deleting: false
+      };
+    } else {
+      this.state = {
+        editing: false,
+        deleting: false
+      };
+    }
   }
 
   handleInput = e => {
@@ -76,7 +72,11 @@ class NoteView extends Component {
   render() {
     if (this.state.deleted === true) {
       return <div className="mt-5">Note deleted.</div>;
-    } else if (this.state.editing === false && this.state.note !== undefined) {
+    } else if (
+      this.state.editing === false &&
+      this.state.note !== undefined &&
+      globalNote[0]
+    ) {
       return (
         <div className="note-view mt-1 mb-5">
           <div className="modify-links">

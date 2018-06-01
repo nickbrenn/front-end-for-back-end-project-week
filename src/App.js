@@ -11,24 +11,26 @@ import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
+let username = localStorage.getItem("username");
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: [],
-      access: false
+      notes: []
     };
   }
 
   componentDidMount() {
-    this.fetchNotes();
+    if (username !== null) {
+      this.fetchNotes();
+    }
   }
 
   fetchNotes() {
-    const token = localStorage.getItem("token");
     const requestOptions = {
       headers: {
-        Authorization: token
+        Authorization: localStorage.getItem("token")
       }
     };
     console.log("requestOptions", requestOptions);
@@ -53,22 +55,30 @@ class App extends Component {
       });
   }
 
-  submitPassword = () => {
-    this.setState({ access: true });
+  submitPassword = user => {
+    username = user.toLowerCase();
+    this.fetchNotes();
   };
 
   logOut = () => {
-    this.setState({ access: false, notes: [] });
+    this.setState({ notes: [] });
+    username = null;
   };
 
   addNote = newNote => {
+    newNote.username = username;
     console.log("addnote is run", newNote);
-    const addedNote = {
-      title: newNote.title,
-      content: newNote.content
+    const requestOptions = {
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
     };
     axios
-      .post("https://radiant-stream-89164.herokuapp.com/notes", addedNote)
+      .post(
+        "https://radiant-stream-89164.herokuapp.com/notes",
+        newNote,
+        requestOptions
+      )
       .then(response => {
         this.fetchNotes();
       })
@@ -78,8 +88,17 @@ class App extends Component {
   };
 
   editNote = (editedNote, id) => {
+    const requestOptions = {
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    };
     axios
-      .put(`https://radiant-stream-89164.herokuapp.com/notes/${id}`, editedNote)
+      .put(
+        `https://radiant-stream-89164.herokuapp.com/notes/${id}`,
+        editedNote,
+        requestOptions
+      )
       .then(response => {
         console.log("we UPDATED a note", response.data);
         this.fetchNotes();
@@ -90,8 +109,16 @@ class App extends Component {
   };
 
   deleteNote = id => {
+    const requestOptions = {
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    };
     axios
-      .delete(`https://radiant-stream-89164.herokuapp.com/notes/${id}`)
+      .delete(
+        `https://radiant-stream-89164.herokuapp.com/notes/${id}`,
+        requestOptions
+      )
       .then(response => {
         console.log("we DELETED a note", response.data);
         this.fetchNotes();
@@ -103,7 +130,7 @@ class App extends Component {
 
   render() {
     console.log("app state notes", this.state.notes);
-    if (this.state.access === true) {
+    if (username !== null) {
       return (
         <div className="App">
           <Container>
@@ -133,6 +160,7 @@ class App extends Component {
                     return (
                       <NoteView
                         {...props}
+                        username={username}
                         notes={this.state.notes}
                         editNote={this.editNote}
                         deleteNote={this.deleteNote}
@@ -174,35 +202,6 @@ class App extends Component {
             }}
           />
         </div>
-
-        // <div className="App">
-        //   <Container>
-        //     <Row>
-        //       <Col>
-        //         <h4 className="mt-5">Login: </h4>
-        //         <Input
-        //           className="password-input mt-5"
-        //           type="text"
-        //           name="inputtedPassword"
-        //           placeholder="Type the password for access"
-        //           onChange={this.handlePasswordInput}
-        //           value={this.state.inputtedPassword}
-        //         />
-        //         <Button color="info" onClick={this.submitPassword}>
-        //           Login
-        //         </Button>
-        //         <Button
-        //           color="info"
-        //           onClick={() =>
-        //             alert(`The password is "${this.state.password}"`)
-        //           }
-        //         >
-        //           Hint
-        //         </Button>
-        //       </Col>
-        //     </Row>
-        //   </Container>
-        // </div>
       );
     }
   }
