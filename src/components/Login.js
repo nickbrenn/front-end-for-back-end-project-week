@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button } from "reactstrap";
+import { Button, Container, Col, Row, Form, Input } from "reactstrap";
 import { Link } from "react-router-dom";
+
+import "./Login.css";
 
 class Login extends Component {
   constructor(props) {
@@ -41,25 +43,34 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="Login">
-        <form onSubmit={this.login}>
-          <input
-            onChange={this.handleInputChange}
-            placeholder="username"
-            value={this.state.username}
-            name="username"
-          />
-          <input
-            onChange={this.handleInputChange}
-            placeholder="password"
-            value={this.state.password}
-            name="password"
-          />
-          <button type="submit">Login this user</button>
-        </form>
-        <Link to={"/register"}>
-          <Button color="info">Register</Button>
-        </Link>
+      <div className="login">
+        <Container>
+          <Row>
+            <Col>
+              <h4 className="mt-5">Login: </h4>
+              <Form onSubmit={this.login}>
+                <Input
+                  onChange={this.handleInputChange}
+                  placeholder="username"
+                  value={this.state.username}
+                  name="username"
+                />
+                <Input
+                  onChange={this.handleInputChange}
+                  placeholder="password"
+                  value={this.state.password}
+                  name="password"
+                />
+                <Button color="info" type="submit">
+                  Submit
+                </Button>
+                <Link to={"/register"}>
+                  <Button color="info">Register</Button>
+                </Link>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }

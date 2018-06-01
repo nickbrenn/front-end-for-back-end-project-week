@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import { Row, Col, Container, Input, Button } from "reactstrap";
+import { Row, Col, Container } from "reactstrap";
 import axios from "axios";
 
 import NoteList from "./components/NoteList";
@@ -52,10 +52,6 @@ class App extends Component {
         this.props.history.push("/");
       });
   }
-
-  handlePasswordInput = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
 
   submitPassword = () => {
     this.setState({ access: true });

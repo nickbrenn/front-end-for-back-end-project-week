@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button } from "reactstrap";
+import { Button, Container, Col, Row, Form, Input } from "reactstrap";
 import { Link } from "react-router-dom";
+
+import "./Register.css";
 
 class Register extends Component {
   constructor(props) {
@@ -25,6 +27,7 @@ class Register extends Component {
       })
       .catch(error => {
         console.log(error);
+        alert(error);
       });
 
     this.setState({
@@ -39,25 +42,34 @@ class Register extends Component {
 
   render() {
     return (
-      <div className="Register">
-        <form onSubmit={this.register}>
-          <input
-            onChange={this.handleInputChange}
-            placeholder="username"
-            value={this.state.username}
-            name="username"
-          />
-          <input
-            onChange={this.handleInputChange}
-            placeholder="password"
-            value={this.state.password}
-            name="password"
-          />
-          <button type="submit">Register this user</button>
-        </form>
-        <Link to={"/"}>
-          <Button color="info">Login</Button>
-        </Link>
+      <div className="register">
+        <Container>
+          <Row>
+            <Col>
+              <h4 className="mt-5">Registration: </h4>
+              <Form onSubmit={this.register}>
+                <Input
+                  onChange={this.handleInputChange}
+                  placeholder="username"
+                  value={this.state.username}
+                  name="username"
+                />
+                <Input
+                  onChange={this.handleInputChange}
+                  placeholder="password"
+                  value={this.state.password}
+                  name="password"
+                />
+                <Button color="info" type="submit">
+                  Submit
+                </Button>
+                <Link to={"/"}>
+                  <Button color="info">Login</Button>
+                </Link>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }

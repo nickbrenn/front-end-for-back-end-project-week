@@ -1,0 +1,6 @@
+.login {
+  display: flex;
+  text-align: center;
+  background: whitesmoke;
+  min-height: 100vh;
+}
