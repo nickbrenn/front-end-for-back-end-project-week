@@ -23,9 +23,31 @@ class Login extends Component {
     axios
       .post("https://radiant-stream-89164.herokuapp.com/login", userData)
       .then(response => {
-        localStorage.setItem("username", userData.username);
-        localStorage.setItem("token", response.data.token);
-        this.props.submitPassword(userData.username);
+        const newToken = {
+          token: response.data.token
+        };
+        const requestOptions = {
+          headers: {
+            Authorization: response.data.token
+          }
+        };
+        axios
+          .put(
+            `https://radiant-stream-89164.herokuapp.com/users/${
+              response.data.userData.id
+            }`,
+            newToken,
+            requestOptions
+          )
+          .then(response => {
+            localStorage.setItem("username", userData.username.toLowerCase());
+            localStorage.setItem("token", newToken.token);
+            this.props.submitPassword(userData.username);
+          })
+          .catch(error => {
+            console.log("response from ERROR putting user", newToken);
+            alert("could not put it");
+          });
       })
       .catch(error => {
         console.log(error);
