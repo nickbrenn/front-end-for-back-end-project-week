@@ -35,7 +35,10 @@ class App extends Component {
     };
     console.log("requestOptions", requestOptions);
     axios
-      .get("https://radiant-stream-89164.herokuapp.com/notes", requestOptions)
+      .get(
+        `https://radiant-stream-89164.herokuapp.com/usernotes/${username}`,
+        requestOptions
+      )
       .then(response => {
         console.log("we got the notes", response.data);
         let sortedNotes = response.data.sort(function(a, b) {
