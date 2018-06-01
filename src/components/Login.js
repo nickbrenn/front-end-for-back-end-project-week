@@ -17,7 +17,7 @@ class Login extends Component {
   login = event => {
     event.preventDefault();
     const userData = {
-      username: this.state.username,
+      username: this.state.username.toLowerCase(),
       password: this.state.password
     };
     axios

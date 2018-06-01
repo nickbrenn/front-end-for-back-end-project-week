@@ -28,7 +28,6 @@ class NoteList extends Component {
   };
 
   render() {
-    console.log("console log of notelist.js note props", this.props.notes);
     let sortedNotes = this.props.notes;
     if (this.state.searchInput !== "") {
       sortedNotes = sortedNotes.filter(

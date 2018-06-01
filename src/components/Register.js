@@ -24,6 +24,7 @@ class Register extends Component {
       .post("https://radiant-stream-89164.herokuapp.com/register", newUser)
       .then(response => {
         console.log(response);
+        this.props.history.push("/");
       })
       .catch(error => {
         console.log(error);

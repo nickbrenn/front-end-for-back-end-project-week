@@ -33,14 +33,13 @@ class App extends Component {
         Authorization: localStorage.getItem("token")
       }
     };
-    console.log("requestOptions", requestOptions);
     axios
       .get(
-        `https://radiant-stream-89164.herokuapp.com/usernotes/${username}`,
+        `https://radiant-stream-89164.herokuapp.com/notes/${username}`,
         requestOptions
       )
       .then(response => {
-        console.log("we got the notes", response.data);
+        console.log("WE FETCHED NOTES", response.data);
         let sortedNotes = response.data.sort(function(a, b) {
           if (a.updatedAt > b.updatedAt) {
             return -1;
@@ -54,7 +53,6 @@ class App extends Component {
       })
       .catch(error => {
         console.error("Server Error", error);
-        this.props.history.push("/");
       });
   }
 
@@ -70,7 +68,7 @@ class App extends Component {
 
   addNote = newNote => {
     newNote.username = username;
-    console.log("addnote is run", newNote);
+    console.log("we CREATED a note", newNote);
     const requestOptions = {
       headers: {
         Authorization: localStorage.getItem("token")
@@ -78,7 +76,7 @@ class App extends Component {
     };
     axios
       .post(
-        "https://radiant-stream-89164.herokuapp.com/notes",
+        `https://radiant-stream-89164.herokuapp.com/notes/${username}`,
         newNote,
         requestOptions
       )
@@ -98,7 +96,7 @@ class App extends Component {
     };
     axios
       .put(
-        `https://radiant-stream-89164.herokuapp.com/notes/${id}`,
+        `https://radiant-stream-89164.herokuapp.com/notes/${username}/${id}`,
         editedNote,
         requestOptions
       )
@@ -119,7 +117,7 @@ class App extends Component {
     };
     axios
       .delete(
-        `https://radiant-stream-89164.herokuapp.com/notes/${id}`,
+        `https://radiant-stream-89164.herokuapp.com/notes/${username}/${id}`,
         requestOptions
       )
       .then(response => {
@@ -143,7 +141,11 @@ class App extends Component {
                   path="/"
                   render={props => {
                     return (
-                      <Menu notes={this.state.notes} logOut={this.logOut} />
+                      <Menu
+                        {...props}
+                        notes={this.state.notes}
+                        logOut={this.logOut}
+                      />
                     );
                   }}
                 />
@@ -153,7 +155,7 @@ class App extends Component {
                   exact
                   path="/"
                   render={props => {
-                    return <NoteList notes={this.state.notes} />;
+                    return <NoteList {...props} notes={this.state.notes} />;
                   }}
                 />
                 <Route
@@ -176,6 +178,7 @@ class App extends Component {
                   render={props => {
                     return (
                       <CreateNote
+                        {...props}
                         notes={this.state.notes}
                         addNote={this.addNote}
                       />
@@ -194,14 +197,14 @@ class App extends Component {
             exact
             path="/"
             render={props => {
-              return <Login submitPassword={this.submitPassword} />;
+              return <Login {...props} submitPassword={this.submitPassword} />;
             }}
           />
           <Route
             exact
             path="/register"
             render={props => {
-              return <Register />;
+              return <Register {...props} />;
             }}
           />
         </div>

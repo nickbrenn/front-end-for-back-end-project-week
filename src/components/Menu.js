@@ -41,6 +41,7 @@ class Menu extends Component {
               onClick={() => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("username");
+                this.props.history.push("/");
                 this.props.logOut();
               }}
             >
