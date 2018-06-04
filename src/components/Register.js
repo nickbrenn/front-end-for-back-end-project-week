@@ -21,7 +21,7 @@ class Register extends Component {
       password: this.state.password
     };
     axios
-      .post("https://radiant-stream-89164.herokuapp.com/register", newUser)
+      .post("http://localhost:3333/register", newUser)
       .then(response => {
         console.log(response);
         this.props.history.push("/");

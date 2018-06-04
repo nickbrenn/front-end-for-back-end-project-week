@@ -34,10 +34,7 @@ class App extends Component {
       }
     };
     axios
-      .get(
-        `https://radiant-stream-89164.herokuapp.com/notes/${username}`,
-        requestOptions
-      )
+      .get(`http://localhost:3333/notes/${username}`, requestOptions)
       .then(response => {
         console.log("WE FETCHED NOTES", response.data);
         let sortedNotes = response.data.sort(function(a, b) {
@@ -75,11 +72,7 @@ class App extends Component {
       }
     };
     axios
-      .post(
-        `https://radiant-stream-89164.herokuapp.com/notes/${username}`,
-        newNote,
-        requestOptions
-      )
+      .post(`http://localhost:3333/notes/${username}`, newNote, requestOptions)
       .then(response => {
         this.fetchNotes();
       })
@@ -96,7 +89,7 @@ class App extends Component {
     };
     axios
       .put(
-        `https://radiant-stream-89164.herokuapp.com/notes/${username}/${id}`,
+        `http://localhost:3333/notes/${username}/${id}`,
         editedNote,
         requestOptions
       )
@@ -116,10 +109,7 @@ class App extends Component {
       }
     };
     axios
-      .delete(
-        `https://radiant-stream-89164.herokuapp.com/notes/${username}/${id}`,
-        requestOptions
-      )
+      .delete(`http://localhost:3333/notes/${username}/${id}`, requestOptions)
       .then(response => {
         console.log("we DELETED a note", response.data);
         this.fetchNotes();

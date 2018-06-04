@@ -21,7 +21,7 @@ class Login extends Component {
       password: this.state.password
     };
     axios
-      .post("https://radiant-stream-89164.herokuapp.com/login", userData)
+      .post("http://localhost:3333/login", userData)
       .then(response => {
         const newToken = {
           token: response.data.token
@@ -33,9 +33,7 @@ class Login extends Component {
         };
         axios
           .put(
-            `https://radiant-stream-89164.herokuapp.com/users/${
-              response.data.userData.id
-            }`,
+            `http://localhost:3333/users/${response.data.userData.id}`,
             newToken,
             requestOptions
           )
